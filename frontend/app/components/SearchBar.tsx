@@ -18,7 +18,7 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ employees }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showResults, setShowResults] = useState(false);
-  const [results, setResults] = useState<{name: string; domain: string}[]>([]);
+  const [results, setResults] = useState<{name: string; domain: string; subCategory?: string}[]>([]);
   const navigate = useNavigate();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,52 +32,50 @@ const SearchBar: React.FC<SearchBarProps> = ({ employees }) => {
     }
     
     const termLower = term.toLowerCase();
-    // Create a map to store unique employees with their domains
-    const uniqueResults = new Map<string, string>();
-
-    // First check if the search term matches a specific domain
-    const isDomainSearch = Object.values(employees).some(employeeSkills => 
-      employeeSkills.some(skill => 
-        skill.Domain.toLowerCase() === termLower || 
-        skill.Domain.toLowerCase().includes(termLower)
-      )
-    );
+    // Create a map to store unique employees with their domains and subcategories
+    const uniqueResults = new Map<string, {domain: string; subCategory?: string}>();
 
     // Search through all employees
     Object.keys(employees).forEach(name => {
       const employeeData = employees[name];
+      let found = false;
       
-      // If we're doing a domain search, only include employees with matching domain
-      if (isDomainSearch) {
-        const hasMatchingDomain = employeeData.some(skill => 
-          skill.Domain.toLowerCase() === termLower ||
-          skill.Domain.toLowerCase().includes(termLower)
+      // First priority: Check if the search term matches the employee name
+      if (name.toLowerCase().includes(termLower)) {
+        uniqueResults.set(name, { domain: employeeData[0].Domain });
+        found = true;
+      }
+      
+      // If not found by name, check for domain or subcategory matches
+      if (!found) {
+        // Look for matching skills by domain or subcategory
+        const matchingSkill = employeeData.find(skill => 
+          skill.Domain.toLowerCase().includes(termLower) || 
+          skill['Sub Category'].toLowerCase().includes(termLower)
         );
         
-        if (hasMatchingDomain) {
-          // Find the matching domain to display
-          const matchingDomain = employeeData.find(skill => 
-            skill.Domain.toLowerCase() === termLower ||
-            skill.Domain.toLowerCase().includes(termLower)
-          )?.Domain || employeeData[0].Domain;
+        // If found a matching skill, add to results
+        if (matchingSkill) {
+          // Determine if it's a domain or subcategory match for display purposes
+          const isSubCategoryMatch = matchingSkill['Sub Category'].toLowerCase().includes(termLower);
           
-          uniqueResults.set(name, matchingDomain);
+          uniqueResults.set(name, { 
+            domain: matchingSkill.Domain,
+            subCategory: isSubCategoryMatch ? matchingSkill['Sub Category'] : undefined
+          });
         }
-      } 
-      // If not a domain search, check for name matches
-      else if (name.toLowerCase().includes(termLower)) {
-        uniqueResults.set(name, employeeData[0].Domain);
       }
     });
 
     // Convert map to array for rendering
-    const filteredResults = Array.from(uniqueResults).map(([name, domain]) => ({
+    const filteredResults = Array.from(uniqueResults).map(([name, data]) => ({
       name,
-      domain
+      domain: data.domain,
+      subCategory: data.subCategory
     }));
 
     setResults(filteredResults);
-    setShowResults(true);
+    setShowResults(filteredResults.length > 0);
   };
 
   const handleResultClick = (name: string) => {
@@ -95,11 +93,15 @@ const SearchBar: React.FC<SearchBarProps> = ({ employees }) => {
         </svg>
         <input
           type="text"
-          placeholder="Search by name or domain..."
-          className="ml-2 bg-transparent outline-none w-48 placeholder-gray-600 cursor-text text-gray-800 focus:border-b focus:border-blue-500"
+          placeholder="Search by name, domain or sub category..."
+          className="ml-2 bg-transparent outline-none w-80 placeholder-gray-600 cursor-text text-gray-800 focus:border-b focus:border-blue-500"
           value={searchTerm}
           onChange={handleSearch}
-          onFocus={() => setShowResults(true)}
+          onFocus={() => {
+            if (searchTerm.trim() !== '') {
+              setShowResults(true);
+            }
+          }}
           onBlur={() => {
             // Delay hiding results to allow for clicks
             setTimeout(() => setShowResults(false), 200);
@@ -108,32 +110,31 @@ const SearchBar: React.FC<SearchBarProps> = ({ employees }) => {
       </div>
 
       {/* Search Results Dropdown */}
-      {showResults && (searchTerm || results.length > 0) && (
+      {showResults && searchTerm && (
         <div className="absolute mt-1 w-full bg-white shadow-lg rounded-md z-10 max-h-60 overflow-y-auto border border-gray-200">
           {results.length > 0 ? (
             results.map((result) => (
               <div
                 key={result.name}
-                className="py-2 hover:bg-gray-100 cursor-pointer flex items-center"
+                className="py-2 px-2 hover:bg-gray-100 cursor-pointer flex items-center"
                 onClick={() => handleResultClick(result.name)}
               >
                 <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mx-3">
                   <span className="text-blue-600 font-semibold text-xl">{result.name.charAt(0)}</span>
                 </div>
-                <div>
+                <div className="flex-1">
                   <p className="text-gray-900 font-medium">{result.name}</p>
                   <p className="text-sm text-gray-500">
                     {result.domain}
+                    {result.subCategory && ` - ${result.subCategory}`}
                   </p>
                 </div>
               </div>
             ))
           ) : (
-            searchTerm && (
-              <div className="px-4 py-2 text-gray-500">
-                No employees found
-              </div>
-            )
+            <div className="px-4 py-2 text-gray-500">
+              No employees found
+            </div>
           )}
         </div>
       )}

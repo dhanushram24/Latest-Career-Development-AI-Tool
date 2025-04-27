@@ -5,7 +5,7 @@ import StatsSummary from './StatsSummary';
 import SkillMatrix from './SkillMatrix';
 import TopSkills from './TopSkills';
 import ImprovementAreas from './ImprovementAreas';
-import CareerDevelopment from './MentorshipAndCourses';
+import { MentorshipAndCourses } from './MentorshipAndCourses';
 import CourseRecommendationModal, { generateCourseRecommendation } from './CourseRecommendationModal';
 import TabNavigation from './TabNavigation';
 import supabase from '../config/supabaseClient';
@@ -165,8 +165,8 @@ export default function EmployeeDetail({ skills: propSkills, defaultTab = "skill
             handleRecommendCourse={handleRecommendCourse}
           />
         );
-      case 'development':
-        return <CareerDevelopment skills={skills} employeeName={employeeName} />;
+        case 'development':
+  return <MentorshipAndCourses />;
       case 'skills':
       default:
         return (
