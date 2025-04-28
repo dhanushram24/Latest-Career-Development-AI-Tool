@@ -1,0 +1,1016 @@
+[
+  {
+    "employee_id": "EMP_33fedaef",
+    "match_score": 67.67,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 1,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 5,
+        "interest_rate": 3
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 5,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 1,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 5,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 5,
+        "interest_rate": 4
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 1,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 2,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 1,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Collibra DIC",
+        "skill_rate": 5,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Collibra DQ&O",
+        "skill_rate": 5,
+        "interest_rate": 5
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Integrating with Azure Synapse.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_5af8afb8",
+    "match_score": 67.17,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 3,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 5,
+        "interest_rate": 3
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 2,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 3,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 5,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 1,
+        "interest_rate": 5
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 1,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 4,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 4,
+        "interest_rate": 4
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra DIC.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Administering Collibra DQ&O.",
+      "Integrating with Azure Synapse.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_38f7f29a",
+    "match_score": 65.37,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 1,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 1,
+        "interest_rate": 1
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 2,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Azure Synapse Analytics",
+        "skill_rate": 4,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 2,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 5,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 3,
+        "interest_rate": 5
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 1,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 1,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 3,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Collibra DIC",
+        "skill_rate": 5,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Collibra DQ&O",
+        "skill_rate": 5,
+        "interest_rate": 1
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_2c43883c",
+    "match_score": 65.22,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 2,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 3,
+        "interest_rate": 3
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 5,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Azure Synapse Analytics",
+        "skill_rate": 5,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 2,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 3,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 4,
+        "interest_rate": 2
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 1,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 4,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 2,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Collibra DIC",
+        "skill_rate": 4,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Collibra DQ&O",
+        "skill_rate": 1,
+        "interest_rate": 5
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_f28cee79",
+    "match_score": 65.0,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 1,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 2,
+        "interest_rate": 1
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 4,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 1,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 2,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 5,
+        "interest_rate": 5
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 5,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 2,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 2,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Collibra DIC",
+        "skill_rate": 2,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Collibra DQ&O",
+        "skill_rate": 2,
+        "interest_rate": 2
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Integrating with Azure Synapse.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_06895864",
+    "match_score": 64.94,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 5,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 1,
+        "interest_rate": 3
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 3,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 4,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 1,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 5,
+        "interest_rate": 4
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 1,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 3,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 3,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Collibra DIC",
+        "skill_rate": 5,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Collibra DQ&O",
+        "skill_rate": 3,
+        "interest_rate": 4
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Integrating with Azure Synapse.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_0b75cb05",
+    "match_score": 64.13,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 5,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 5,
+        "interest_rate": 1
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 2,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 1,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 3,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 4,
+        "interest_rate": 3
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 2,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 1,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 2,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Collibra DIC",
+        "skill_rate": 3,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Collibra DQ&O",
+        "skill_rate": 5,
+        "interest_rate": 5
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Integrating with Azure Synapse.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_5a9d3918",
+    "match_score": 63.66,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 1,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 1,
+        "interest_rate": 5
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 3,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Azure Synapse Analytics",
+        "skill_rate": 5,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 5,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 1,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 4,
+        "interest_rate": 5
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 3,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 2,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 3,
+        "interest_rate": 5
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra DIC.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Administering Collibra DQ&O.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_a47b53b9",
+    "match_score": 63.08,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 3,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 1,
+        "interest_rate": 5
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 4,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 2,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 3,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 4,
+        "interest_rate": 3
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 4,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 4,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 5,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Collibra DIC",
+        "skill_rate": 3,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Collibra DQ&O",
+        "skill_rate": 4,
+        "interest_rate": 5
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Integrating with Azure Synapse.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_5eb11629",
+    "match_score": 62.34,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 2,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 3,
+        "interest_rate": 3
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 5,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 4,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 3,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 2,
+        "interest_rate": 4
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 5,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 5,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 4,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Collibra DIC",
+        "skill_rate": 5,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Collibra DQ&O",
+        "skill_rate": 4,
+        "interest_rate": 2
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Integrating with Azure Synapse.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_92807c30",
+    "match_score": 60.22,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 5,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Azure Synapse Analytics",
+        "skill_rate": 5,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 3,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 5,
+        "interest_rate": 2
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 4,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Collibra DIC",
+        "skill_rate": 5,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Collibra DQ&O",
+        "skill_rate": 1,
+        "interest_rate": 3
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Experience with Azure.",
+      "Experience with GCP.",
+      "Using shell commands for managing platform and VMs.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs.",
+      "Knowledge in Terraform.",
+      "Knowledge in Kubernetes."
+    ]
+  },
+  {
+    "employee_id": "EMP_2be9abe3",
+    "match_score": 60.2,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 2,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 4,
+        "interest_rate": 1
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 1,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 1,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 5,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 2,
+        "interest_rate": 1
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 4,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 4,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 2,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Collibra DIC",
+        "skill_rate": 4,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Collibra DQ&O",
+        "skill_rate": 3,
+        "interest_rate": 1
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Integrating with Azure Synapse.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_6f081003",
+    "match_score": 60.06,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 5,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 1,
+        "interest_rate": 2
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 1,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 4,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 3,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 3,
+        "interest_rate": 1
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 2,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 3,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 5,
+        "interest_rate": 2
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra DIC.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Administering Collibra DQ&O.",
+      "Integrating with Azure Synapse.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_22b827d8",
+    "match_score": 58.58,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 1,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 2,
+        "interest_rate": 5
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 4,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 4,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 1,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 1,
+        "interest_rate": 2
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 2,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 1,
+        "interest_rate": 3
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 5,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Collibra DIC",
+        "skill_rate": 4,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Collibra DQ&O",
+        "skill_rate": 1,
+        "interest_rate": 3
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Integrating with Azure Synapse.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  },
+  {
+    "employee_id": "EMP_82163710",
+    "match_score": 57.22,
+    "matching_skills": [
+      {
+        "skill": "Databricks",
+        "skill_rate": 3,
+        "interest_rate": 1
+      },
+      {
+        "skill": "Azure",
+        "skill_rate": 2,
+        "interest_rate": 5
+      },
+      {
+        "skill": "GCP",
+        "skill_rate": 3,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Google BigQuery",
+        "skill_rate": 1,
+        "interest_rate": 5
+      },
+      {
+        "skill": "Power BI",
+        "skill_rate": 3,
+        "interest_rate": 4
+      },
+      {
+        "skill": "Shell",
+        "skill_rate": 3,
+        "interest_rate": 3
+      },
+      {
+        "skill": "ETL / ELT",
+        "skill_rate": 2,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Terraform",
+        "skill_rate": 2,
+        "interest_rate": 2
+      },
+      {
+        "skill": "Kubernetes",
+        "skill_rate": 3,
+        "interest_rate": 4
+      }
+    ],
+    "missing_skills": [
+      "Experience with Collibra platform and data governance.",
+      "Administering Collibra Console.",
+      "Administering Collibra DIC.",
+      "Administering Collibra Edge.",
+      "Administering Collibra Lineage Harvester.",
+      "Administering Collibra DQ&O.",
+      "Integrating with Azure Synapse.",
+      "Knowledge in data quality tools.",
+      "Knowledge in APIs."
+    ]
+  }
+]

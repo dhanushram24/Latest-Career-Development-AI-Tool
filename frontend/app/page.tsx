@@ -29,7 +29,7 @@ function HomePage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center mb-8">Welcome to SkillMatrix</h1>
+      <h1 className="text-3xl font-bold text-center text-gray-700 mb-4">Welcome to SkillMatrix</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Upskill Tile - Simplified */}

@@ -44,6 +44,7 @@ export const MentorshipAndCourses = () => {
   const [showCourseModal, setShowCourseModal] = useState<boolean>(false);
   const [courseRecommendations, setCourseRecommendations] = useState<CourseRecommendation[]>([]);
   const [isLoadingCourses, setIsLoadingCourses] = useState<boolean>(false);
+  const [weakSkills, setWeakSkills] = useState<SkillEntry[]>([]);
   
   const { employeeId } = useParams<{ employeeId: string }>();
   const employeeName = decodeURIComponent(employeeId || '');
@@ -66,7 +67,21 @@ export const MentorshipAndCourses = () => {
           throw new Error('Employee not found');
         }
         
-        setEmployeeSkills(empData);
+        // Sort employee skills by Skill Rate (ascending) and Interest Rate (descending)
+        const sortedSkills = [...empData].sort((a, b) => {
+          // First sort by Skill Rate (ascending)
+          if (a['Skill Rate'] !== b['Skill Rate']) {
+            return a['Skill Rate'] - b['Skill Rate'];
+          }
+          // If Skill Rate is the same, sort by Interest Rate (descending)
+          return b['Interest Rate'] - a['Interest Rate'];
+        });
+        
+        setEmployeeSkills(sortedSkills);
+        
+        // Identify weak skills that need improvement (skill rate <= 3)
+        const identifiedWeakSkills = findWeakSkills(sortedSkills, 3);
+        setWeakSkills(identifiedWeakSkills);
         
         // Fetch all employees for mentor matching
         const { data: allData, error: allError } = await supabase
@@ -80,8 +95,8 @@ export const MentorshipAndCourses = () => {
         setAllEmployees(allData);
         
         // Once we have both sets of data, find mentor matches
-        if (empData && allData) {
-          const mentors = findTopMentors(empData, allData, employeeName);
+        if (sortedSkills && allData) {
+          const mentors = findTopMentors(sortedSkills, allData, employeeName);
           setMentorRecommendations(mentors);
         }
       } catch (err) {
@@ -97,11 +112,18 @@ export const MentorshipAndCourses = () => {
     }
   }, [employeeName]);
   
-  // Find skill areas where employee needs improvement
+  // Find skill areas where employee needs improvement - updated to use <= threshold
   const findWeakSkills = (skills: SkillEntry[], threshold: number = 3): SkillEntry[] => {
     return skills.filter(skill => 
-      skill['Skill Rate'] < threshold && skill['Interest Rate'] >= 3
-    );
+      skill['Skill Rate'] <= threshold && skill['Interest Rate'] >= 3
+    ).sort((a, b) => {
+      // Sort by Interest Rate (descending) for skills with same Skill Rate
+      if (a['Skill Rate'] === b['Skill Rate']) {
+        return b['Interest Rate'] - a['Interest Rate'];
+      }
+      // Otherwise sort by Skill Rate (ascending)
+      return a['Skill Rate'] - b['Skill Rate'];
+    });
   };
   
   // Find top mentors for weak skills
@@ -163,7 +185,6 @@ export const MentorshipAndCourses = () => {
   };
   
   // Handler for recommending courses for a specific skill
-  // Handler for recommending courses for a specific skill
   const handleRecommendCourses = async (skill: SkillEntry) => {
     setSelectedSkill(skill);
     setIsLoadingCourses(true);
@@ -189,6 +210,7 @@ export const MentorshipAndCourses = () => {
       setShowCourseModal(true);
     }
   };
+  
   // Close the course recommendation modal
   const handleCloseModal = () => {
     setShowCourseModal(false);
@@ -233,8 +255,7 @@ export const MentorshipAndCourses = () => {
                     {mentor.name.charAt(0)}
                   </div>
                   <div className="ml-4">
-                  <h3 className="font-bold text-lg text-purple-800">{mentor.name}</h3>
-
+                    <h3 className="font-bold text-lg text-purple-800">{mentor.name}</h3>
                     <p className="text-sm text-gray-600">{mentor.domain} Expert</p>
                   </div>
                 </div>
@@ -260,24 +281,98 @@ export const MentorshipAndCourses = () => {
         )}
       </div>
       
-      {/* Course Recommendations Section - Now with toggle button */}
+      {/* Skills Needing Improvement Section - Updated to show skills <= 3 */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-800">
-            <span className="text-purple-600">
+            <span className="text-red-600">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path d="M12 14l9-5-9-5-9 5 9 5z" />
                 <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
               </svg>
-              Skills & Courses
+              Skills Needing Improvement (Skill Rate ≤ 3)
             </span>
           </h2>
         </div>
 
-        {/* Skills List with Course Recommendation Buttons */}
+        {/* Skills Needing Improvement List */}
         <div className="mt-4">
-          <h3 className="text-lg font-semibold text-gray-700 mb-3">Employee Skills</h3>
+          {weakSkills.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white border border-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Skill</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Domain</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Skill Level</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Interest Level</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {weakSkills.map((skill, index) => (
+                    <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{skill['Sub Category']}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{skill.Domain}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{skill.Category}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <div className="flex items-center">
+                          <div className="w-24 h-2 bg-gray-200 rounded-full mr-2">
+                            <div 
+                              className="h-full rounded-full bg-red-500" 
+                              style={{ width: `${skill['Skill Rate'] * 20}%` }}
+                            ></div>
+                          </div>
+                          <span>{skill['Skill Rate']}/5</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <div className="flex items-center">
+                          <div className="w-24 h-2 bg-gray-200 rounded-full mr-2">
+                            <div 
+                              className="h-full rounded-full bg-purple-500" 
+                              style={{ width: `${skill['Interest Rate'] * 20}%` }}
+                            ></div>
+                          </div>
+                          <span>{skill['Interest Rate']}/5</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <button
+                          onClick={() => handleRecommendCourses(skill)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition-colors"
+                        >
+                          Recommend Course
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="text-gray-600 italic">No skills requiring improvement at this time.</p>
+          )}
+        </div>
+      </div>
+
+      {/* All Skills Section - For reference, now sorted by Skill Rate (asc) and Interest Rate (desc) */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">
+            <span className="text-blue-600">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              All Skills (Sorted by Skill Rate ↑, Interest Rate ↓)
+            </span>
+          </h2>
+        </div>
+
+        {/* All Skills List */}
+        <div className="mt-4">
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-200">
               <thead className="bg-gray-50">
@@ -287,7 +382,6 @@ export const MentorshipAndCourses = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Skill Level</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Interest Level</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -321,14 +415,6 @@ export const MentorshipAndCourses = () => {
                         <span>{skill['Interest Rate']}/5</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <button
-                        onClick={() => handleRecommendCourses(skill)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition-colors"
-                      >
-                        Recommend Course
-                      </button>
-                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -338,14 +424,14 @@ export const MentorshipAndCourses = () => {
       </div>
 
       {selectedSkill && (
-  <CourseRecommendationModal
-    isOpen={showCourseModal}
-    onClose={handleCloseModal}
-    skill={selectedSkill}
-    recommendation={courseRecommendations}
-    isLoading={isLoadingCourses}
-  />
-)}
+        <CourseRecommendationModal
+          isOpen={showCourseModal}
+          onClose={handleCloseModal}
+          skill={selectedSkill}
+          recommendation={courseRecommendations}
+          isLoading={isLoadingCourses}
+        />
+      )}
     </div>
   );
 };
