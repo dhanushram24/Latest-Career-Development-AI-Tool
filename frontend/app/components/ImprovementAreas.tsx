@@ -1,4 +1,3 @@
-// src/components/ImprovementAreas.tsx
 import { convertToPercentage } from './SkillRenderer';
 
 type SkillEntry = {

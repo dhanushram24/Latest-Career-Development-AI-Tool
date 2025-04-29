@@ -40,6 +40,7 @@ type MatchedEmployee = {
 export default function SimpleJobMatching() {
   // State management
   const [isLoading, setIsLoading] = useState(false);
+  const [isMatchingEmployees, setIsMatchingEmployees] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [employeeSkills, setEmployeeSkills] = useState<SkillEntry[]>([]);
   const [extractedSkills, setExtractedSkills] = useState<RequiredSkill[]>([]);
@@ -47,6 +48,7 @@ export default function SimpleJobMatching() {
   const [department, setDepartment] = useState('');
   const [requiredSkillRating, setRequiredSkillRating] = useState(3);
   const [matchedEmployees, setMatchedEmployees] = useState<MatchedEmployee[]>([]);
+  const [searchPerformed, setSearchPerformed] = useState(false);
   const [apiResponse, setApiResponse] = useState<any>(null); // For debugging
   const [expandedEmployee, setExpandedEmployee] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -100,6 +102,8 @@ export default function SimpleJobMatching() {
     setIsLoading(true);
     setError(null);
     setApiResponse(null);
+    setSearchPerformed(false);
+    setMatchedEmployees([]);
 
     try {
       // Step 1: Upload file and extract skills
@@ -139,6 +143,9 @@ export default function SimpleJobMatching() {
   // Match employees to skills
   const matchEmployeesToSkills = async (skills: RequiredSkill[]) => {
     try {
+      setIsMatchingEmployees(true);
+      setSearchPerformed(true);
+      
       console.log("Matching employees to skills...");
       console.log("Required skills:", skills);
       console.log("Min skill rating:", requiredSkillRating);
@@ -181,6 +188,8 @@ export default function SimpleJobMatching() {
       console.error("Error matching employees:", error);
       setError(`Error matching employees: ${error instanceof Error ? error.message : 'Unknown error'}`);
       setMatchedEmployees([]);
+    } finally {
+      setIsMatchingEmployees(false);
     }
   };
 
@@ -206,6 +215,13 @@ export default function SimpleJobMatching() {
     if (rating >= 3) return 'text-blue-600';
     return 'text-gray-600';
   };
+
+  // Loading spinner component
+  const LoadingSpinner = () => (
+    <div className="flex justify-center items-center py-8">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+  );
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
@@ -283,104 +299,93 @@ export default function SimpleJobMatching() {
         </div>
       )}
 
-      {/* Debug info about loaded employees */}
-      {/* <div className="bg-yellow-50 border border-yellow-300 p-4 rounded mb-6">
-        <h3 className="font-bold mb-2">Debug Info:</h3>
-        <p>Employees loaded: {employeeSkills.length}</p>
-        <p>Matched employees: {matchedEmployees.length}</p>
-        {matchedEmployees.length === 0 && apiResponse && (
-          <div>
-            <p className="font-bold mt-2">API Response:</p>
-            <pre className="bg-gray-100 p-2 mt-1 text-xs overflow-auto max-h-40">
-              {JSON.stringify(apiResponse, null, 2)}
-            </pre>
-          </div>
-        )}
-      </div> */}
-
-      {matchedEmployees.length > 0 ? (
+      {/* Results section */}
+      {searchPerformed && (
         <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-          <h2 className="text-2xl font-semibold mb-5 text-blue-800">Top {matchedEmployees.length} Matched Employees</h2>
+          <h2 className="text-2xl font-semibold mb-5 text-blue-800">
+            {isMatchingEmployees ? 'Finding Matches...' : 
+             matchedEmployees.length > 0 ? `Top ${matchedEmployees.length} Matched Employees` : 
+             'No Matches Found'}
+          </h2>
           
-          <div className="space-y-4">
-            {matchedEmployees.map((employee, index) => (
-              <div 
-                key={index} 
-                className={`p-5 rounded-md border shadow-sm ${
-                  employee.overallMatch >= 70 ? 'border-green-400 bg-green-50' : 
-                  employee.overallMatch >= 40 ? 'border-yellow-400 bg-yellow-50' : 'border-gray-300 bg-gray-50'
-                }`}
-              >
+          {isMatchingEmployees ? (
+            <LoadingSpinner />
+          ) : matchedEmployees.length > 0 ? (
+            <div className="space-y-4">
+              {matchedEmployees.map((employee, index) => (
                 <div 
-                  className="flex justify-between items-center cursor-pointer" 
-                  onClick={() => toggleEmployeeDetails(employee.id)}
+                  key={index} 
+                  className={`p-5 rounded-md border shadow-sm ${
+                    employee.overallMatch >= 70 ? 'border-green-400 bg-green-50' : 
+                    employee.overallMatch >= 40 ? 'border-yellow-400 bg-yellow-50' : 'border-gray-300 bg-gray-50'
+                  }`}
                 >
-                  <div>
+                  <div 
+                    className="flex justify-between items-center cursor-pointer" 
+                    onClick={() => toggleEmployeeDetails(employee.id)}
+                  >
+                    <div>
                     <h3 className={`font-semibold text-lg ${
-                      employee.overallMatch >= 70 ? 'text-green-800' : 
-                      employee.overallMatch >= 40 ? 'text-yellow-800' : 'text-gray-800'
-                    }`}>{employee.name}</h3>
-                    <p className="text-sm text-gray-600">Employee ID: {employee.id}</p>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <span className={`text-lg font-bold ${
-                      employee.overallMatch >= 70 ? 'text-green-600' : 
-                      employee.overallMatch >= 40 ? 'text-yellow-600' : 'text-gray-600'
-                    }`}>
-                      {Math.round(employee.overallMatch)}% Match
-                    </span>
-                    <span className="text-sm text-blue-600 underline mt-1">
-                      {expandedEmployee === employee.id ? 'Hide Details' : 'Show Details'}
-                    </span>
-                  </div>
-                </div>
-                
-                {expandedEmployee === employee.id && (
-                  <div className="mt-4 pt-3 border-t border-gray-200">
-                    <div className="mb-4">
-                      <h4 className="font-medium mb-3 text-gray-800">Matched Skills ({employee.matchedSkills.length})</h4>
-                      <div className="space-y-3 pl-2">
-                        {employee.matchedSkills.map((skill, idx) => (
-                          <div key={idx} className="flex justify-between text-sm items-center">
-                            <span className="font-medium text-gray-800">{skill.skill}</span>
-                            <div>
-                              <span className={`mr-4 ${getSkillRatingColor(skill.rating)}`}>
-                                Skill: {skill.rating}/5
-                              </span>
-                              <span className="text-purple-600">
-                                Interest: {skill.interestRate}/5
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                        employee.overallMatch >= 70 ? 'text-green-800' : 
+                        employee.overallMatch >= 40 ? 'text-yellow-800' : 'text-gray-800'
+                      }`}>{employee.name}</h3>
+                      <p className="text-sm text-gray-600">Employee ID: {employee.id}</p>
                     </div>
-                    
-                    {employee.missingSkills.length > 0 && (
-                      <div>
-                        <h4 className="font-medium mb-3 text-gray-800">Skills Gap ({employee.missingSkills.length})</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {employee.missingSkills.map((skill, idx) => (
-                            <span key={idx} className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">
-                              {skill}
-                            </span>
+                    <div className="flex flex-col items-end">
+                      <span className={`text-lg font-bold ${
+                        employee.overallMatch >= 70 ? 'text-green-600' : 
+                        employee.overallMatch >= 40 ? 'text-yellow-600' : 'text-gray-600'
+                      }`}>
+                        {Math.round(employee.overallMatch)}% Match
+                      </span>
+                      <span className="text-sm text-blue-600 underline mt-1">
+                        {expandedEmployee === employee.id ? 'Hide Details' : 'Show Details'}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {expandedEmployee === employee.id && (
+                    <div className="mt-4 pt-3 border-t border-gray-200">
+                      <div className="mb-4">
+                        <h4 className="font-medium mb-3 text-gray-800">Matched Skills ({employee.matchedSkills.length})</h4>
+                        <div className="space-y-3 pl-2">
+                          {employee.matchedSkills.map((skill, idx) => (
+                            <div key={idx} className="flex justify-between text-sm items-center">
+                              <span className="font-medium text-gray-800">{skill.skill}</span>
+                              <div>
+                                <span className={`mr-4 ${getSkillRatingColor(skill.rating)}`}>
+                                  Skill: {skill.rating}/5
+                                </span>
+                                <span className="text-purple-600">
+                                  Interest: {skill.interestRate}/5
+                                </span>
+                              </div>
+                            </div>
                           ))}
                         </div>
                       </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : (
-        extractedSkills.length > 0 && (
-          <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800">No Matches Found</h2>
+                      
+                      {employee.missingSkills.length > 0 && (
+                        <div>
+                          <h4 className="font-medium mb-3 text-gray-800">Skills Gap ({employee.missingSkills.length})</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {employee.missingSkills.map((skill, idx) => (
+                              <span key={idx} className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
             <p className="text-gray-700">Try adjusting the minimum skill rating to a lower value.</p>
-          </div>
-        )
+          )}
+        </div>
       )}
     </div>
   );
