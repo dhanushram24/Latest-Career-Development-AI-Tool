@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface SearchBarProps {
@@ -11,14 +11,25 @@ interface SearchBarProps {
       'Sub Category': string;
       'Skill Rate': number;
       'Interest Rate': number;
+      Access?: string;
+      Email?: string;
     }[];
   };
+  userRole?: 'admin' | 'user' | null;
+  userEmail?: string | null; // Add userEmail prop
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ employees }) => {
+type SearchResult = {
+  name: string;
+  domain: string;
+  subCategory?: string;
+  type: 'employee' | 'skill';
+};
+
+const SearchBar: React.FC<SearchBarProps> = ({ employees, userRole, userEmail }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showResults, setShowResults] = useState(false);
-  const [results, setResults] = useState<{name: string; domain: string; subCategory?: string}[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const navigate = useNavigate();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,57 +43,121 @@ const SearchBar: React.FC<SearchBarProps> = ({ employees }) => {
     }
     
     const termLower = term.toLowerCase();
-    // Create a map to store unique employees with their domains and subcategories
-    const uniqueResults = new Map<string, {domain: string; subCategory?: string}>();
-
-    // Search through all employees
-    Object.keys(employees).forEach(name => {
-      const employeeData = employees[name];
-      let found = false;
+    
+    // Different search behavior based on user role
+    if (userRole === 'user') {
+      // For regular users, only search for their own skills (Sub Category)
+      const skillResults = new Map<string, {name: string; domain: string; subCategory: string}>();
       
-      // First priority: Check if the search term matches the employee name
-      if (name.toLowerCase().includes(termLower)) {
-        uniqueResults.set(name, { domain: employeeData[0].Domain });
-        found = true;
-      }
-      
-      // If not found by name, check for domain or subcategory matches
-      if (!found) {
-        // Look for matching skills by domain or subcategory
-        const matchingSkill = employeeData.find(skill => 
-          skill.Domain.toLowerCase().includes(termLower) || 
-          skill['Sub Category'].toLowerCase().includes(termLower)
+      // Only search in the current user's skills
+      Object.keys(employees).forEach(name => {
+        const employeeData = employees[name];
+        
+        // Check if this entry belongs to the current user by checking email
+        // Only proceed if at least one skill has matching email
+        const isCurrentUser = employeeData.some(skill => 
+          skill.Email?.toLowerCase() === userEmail?.toLowerCase()
         );
         
-        // If found a matching skill, add to results
-        if (matchingSkill) {
-          // Determine if it's a domain or subcategory match for display purposes
-          const isSubCategoryMatch = matchingSkill['Sub Category'].toLowerCase().includes(termLower);
-          
-          uniqueResults.set(name, { 
-            domain: matchingSkill.Domain,
-            subCategory: isSubCategoryMatch ? matchingSkill['Sub Category'] : undefined
+        if (isCurrentUser) {
+          // Look for matching skills by subcategory
+          employeeData.forEach(skill => {
+            if (skill['Sub Category'].toLowerCase().includes(termLower)) {
+              // Use subcategory as the key to avoid duplicates
+              const key = `${skill['Sub Category']}_${skill.Domain}`;
+              skillResults.set(key, {
+                name,
+                domain: skill.Domain,
+                subCategory: skill['Sub Category']
+              });
+            }
           });
         }
-      }
-    });
+      });
+      
+      // Convert map to array for rendering
+      const filteredResults = Array.from(skillResults.values()).map(data => ({
+        name: data.name,
+        domain: data.domain,
+        subCategory: data.subCategory,
+        type: 'skill' as const
+      }));
+      
+      setResults(filteredResults);
+      setShowResults(filteredResults.length > 0);
+    } else {
+      // For admins, keep the original search behavior (search by name, domain, or subcategory)
+      const uniqueResults = new Map<string, {domain: string; subCategory?: string; type: 'employee' | 'skill'}>();
 
-    // Convert map to array for rendering
-    const filteredResults = Array.from(uniqueResults).map(([name, data]) => ({
-      name,
-      domain: data.domain,
-      subCategory: data.subCategory
-    }));
+      Object.keys(employees).forEach(name => {
+        const employeeData = employees[name];
+        let found = false;
+        
+        // First priority: Check if the search term matches the employee name
+        if (name.toLowerCase().includes(termLower)) {
+          uniqueResults.set(name, { 
+            domain: employeeData[0].Domain,
+            type: 'employee'
+          });
+          found = true;
+        }
+        
+        // If not found by name, check for domain or subcategory matches
+        if (!found) {
+          // Look for matching skills by domain or subcategory
+          const matchingSkill = employeeData.find(skill => 
+            skill.Domain.toLowerCase().includes(termLower) || 
+            skill['Sub Category'].toLowerCase().includes(termLower)
+          );
+          
+          // If found a matching skill, add to results
+          if (matchingSkill) {
+            // Determine if it's a domain or subcategory match for display purposes
+            const isSubCategoryMatch = matchingSkill['Sub Category'].toLowerCase().includes(termLower);
+            
+            uniqueResults.set(name, { 
+              domain: matchingSkill.Domain,
+              subCategory: isSubCategoryMatch ? matchingSkill['Sub Category'] : undefined,
+              type: 'employee'
+            });
+          }
+        }
+      });
 
-    setResults(filteredResults);
-    setShowResults(filteredResults.length > 0);
+      // Convert map to array for rendering
+      const filteredResults = Array.from(uniqueResults).map(([name, data]) => ({
+        name,
+        domain: data.domain,
+        subCategory: data.subCategory,
+        type: data.type
+      }));
+
+      setResults(filteredResults);
+      setShowResults(filteredResults.length > 0);
+    }
   };
 
-  const handleResultClick = (name: string) => {
-    const encodedName = encodeURIComponent(name);
-    navigate(`/employee/${encodedName}/skills`);
+  const handleResultClick = (result: SearchResult) => {
+    const encodedName = encodeURIComponent(result.name);
+    
+    // For users, we might want to navigate to the specific skill tab
+    if (userRole === 'user' && result.type === 'skill') {
+      navigate(`/employee/${encodedName}/skills`); // Or to a skill-focused page
+    } else {
+      // For admins, keep original navigation
+      navigate(`/employee/${encodedName}/skills`);
+    }
+    
     setShowResults(false);
     setSearchTerm('');
+  };
+
+  // Adjust placeholder text based on user role
+  const getPlaceholderText = () => {
+    if (userRole === 'user') {
+      return "Search for your skills...";
+    }
+    return "Search by name, domain or sub category...";
   };
 
   return (
@@ -93,7 +168,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ employees }) => {
         </svg>
         <input
           type="text"
-          placeholder="Search by name, domain or sub category..."
+          placeholder={getPlaceholderText()}
           className="ml-2 bg-transparent outline-none w-80 placeholder-gray-600 cursor-text text-gray-800 focus:border-b focus:border-blue-500"
           value={searchTerm}
           onChange={handleSearch}
@@ -113,27 +188,42 @@ const SearchBar: React.FC<SearchBarProps> = ({ employees }) => {
       {showResults && searchTerm && (
         <div className="absolute mt-1 w-full bg-white shadow-lg rounded-md z-10 max-h-60 overflow-y-auto border border-gray-200">
           {results.length > 0 ? (
-            results.map((result) => (
+            results.map((result, index) => (
               <div
-                key={result.name}
+                key={`${result.name}_${result.subCategory || ''}_${index}`}
                 className="py-2 px-2 hover:bg-gray-100 cursor-pointer flex items-center"
-                onClick={() => handleResultClick(result.name)}
+                onClick={() => handleResultClick(result)}
               >
                 <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mx-3">
-                  <span className="text-blue-600 font-semibold text-xl">{result.name.charAt(0)}</span>
+                  {userRole === 'user' && result.type === 'skill' ? (
+                    <span className="text-blue-600 font-semibold text-xl">{result.subCategory?.charAt(0)}</span>
+                  ) : (
+                    <span className="text-blue-600 font-semibold text-xl">{result.name.charAt(0)}</span>
+                  )}
                 </div>
                 <div className="flex-1">
-                  <p className="text-gray-900 font-medium">{result.name}</p>
-                  <p className="text-sm text-gray-500">
-                    {result.domain}
-                    {result.subCategory && ` - ${result.subCategory}`}
-                  </p>
+                  {userRole === 'user' && result.type === 'skill' ? (
+                    <>
+                      <p className="text-gray-900 font-medium">{result.subCategory}</p>
+                      <p className="text-sm text-gray-500">
+                        {result.domain} - {result.name}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-gray-900 font-medium">{result.name}</p>
+                      <p className="text-sm text-gray-500">
+                        {result.domain}
+                        {result.subCategory && ` - ${result.subCategory}`}
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
             ))
           ) : (
             <div className="px-4 py-2 text-gray-500">
-              No employees found
+              {userRole === 'user' ? 'No skills found' : 'No employees found'}
             </div>
           )}
         </div>
